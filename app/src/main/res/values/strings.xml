@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">moviesdbDemo</string>
+    <string name="no_more_data">No more data</string>
 </resources>

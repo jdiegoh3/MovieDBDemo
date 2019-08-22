@@ -61,6 +61,18 @@ public class Movie {
         return overview;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -94,7 +106,7 @@ public class Movie {
     }
 
     public Integer getVoteCount() {
-        return voteCount;
+        return voteCount == null? -100 : voteCount;
     }
 
     public Boolean getVideo() {
