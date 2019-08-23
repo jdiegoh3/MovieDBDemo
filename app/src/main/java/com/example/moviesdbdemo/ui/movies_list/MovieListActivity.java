@@ -234,7 +234,7 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
     public void onCategoryClick(String category) {
         mToolbar.setTitle("");
         mSearchView.setVisibility(View.VISIBLE);
-        
+
         mAdapter.displayLoading();
         mMovieListViewModel.searchMoviesApi(category, 1);
         mSearchView.clearFocus();
