@@ -5,6 +5,7 @@ import com.example.moviesdbdemo.repositories.MovieRepository;
 import com.example.moviesdbdemo.services.serializers.MovieVideoSerializer;
 import com.example.moviesdbdemo.utils.ApiDisposable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -14,10 +15,12 @@ public class MovieListViewModel extends ViewModel {
     private MovieRepository mMovieRepository;
     private boolean mIsViewingMovies;
     private boolean mIsPerformingQuery;
+    private boolean mIsPerformingSearch;
 
     public MovieListViewModel() {
         mMovieRepository = MovieRepository.getInstance();
         mIsPerformingQuery = false;
+        mIsPerformingSearch = false;
     }
 
     public LiveData<List<Movie>> getMovies(){
@@ -42,8 +45,31 @@ public class MovieListViewModel extends ViewModel {
         this.mIsPerformingQuery = mIsPerformingQuery;
     }
 
+    public void setIsPerformingSearch(boolean mIsPerformingSearch) {
+        this.mIsPerformingSearch = mIsPerformingSearch;
+    }
+
+    public boolean getIsPerformingSearch() {
+        return mIsPerformingSearch;
+    }
+
     public void setIsViewingMovies(boolean mIsViewingMovies) {
         this.mIsViewingMovies = mIsViewingMovies;
+    }
+
+    public List<Movie> performMoviesSearchLocal(String query){
+        query = query.toLowerCase();
+        List<Movie> actualMovieList = mMovieRepository.getMovies().getValue();
+        List<Movie> result = new ArrayList<Movie>();
+        if(actualMovieList != null) {
+            for (Movie tempMovie : actualMovieList) {
+                String title = tempMovie.getTitle();
+                if(title != null && title.toLowerCase().contains(query)){
+                    result.add(tempMovie);
+                }
+            }
+        }
+        return result;
     }
 
     public void searchMoviesApi(String query, int page){
@@ -56,7 +82,9 @@ public class MovieListViewModel extends ViewModel {
         if(!mIsPerformingQuery
                 && mIsViewingMovies
                 && !isQueryExhausted().getValue()){
-            mMovieRepository.searchNextPage();
+            if(!getIsPerformingSearch()) {
+                mMovieRepository.searchNextPage();
+            }
         }
     }
 

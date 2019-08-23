@@ -63,6 +63,7 @@ public class MovieRepository {
 
     public void searchMoviesApi(String query, int pageNumber){
         mPageNumber = pageNumber == 0? 1 : pageNumber;
+        query = query == null? mQuery : query;
         mQuery = query;
         mIsQueryExhausted.setValue(false);
         mMoviesAPIClient.getMovies(pageNumber, query, new ApiDisposable<MoviesResponseSerializer, Object>(){

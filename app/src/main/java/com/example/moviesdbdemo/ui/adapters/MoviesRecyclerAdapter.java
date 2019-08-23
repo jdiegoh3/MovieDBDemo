@@ -173,4 +173,13 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
         return null;
     }
+
+    public void setSearchDataChanged(List<Movie> movies){
+        hideLoading();
+        mMovies = movies;
+        Movie exhaustedMovie = new Movie();
+        exhaustedMovie.setTitle("EXHAUSTEDID");
+        mMovies.add(exhaustedMovie);
+        notifyDataSetChanged();
+    }
 }

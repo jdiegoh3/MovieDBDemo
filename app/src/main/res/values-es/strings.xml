@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">moviesdbDemo</string>
+    <string name="app_name">App Peliculas</string>
     <string name="no_more_data">No hay más datos</string>
     <string name="overview">Resumen</string>
     <string name="popular">Peliculas Populares</string>

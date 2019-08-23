@@ -3,6 +3,7 @@ package com.example.moviesdbdemo.ui.movies_list;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,16 +51,20 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
     @BindView(R.id.movies_list)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.list_toolbar)
+    Toolbar mToolbar;
+
     private static final String TAG = MovieListActivity.class.getSimpleName();
     private MovieListViewModel mMovieListViewModel;
     private MoviesRecyclerAdapter mAdapter;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_movies);
         ButterKnife.bind(this);
-
+        mContext = MovieListActivity.this;
         mMovieListViewModel = ViewModelProviders.of(this).get(MovieListViewModel.class);
         initRecycler();
         subscribeObservers();
@@ -68,6 +75,9 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
     }
 
     private void displaySearchCategories() {
+        mToolbar.setTitle(mContext.getString(R.string.app_name));
+        mSearchView.setVisibility(View.GONE);
+
         mMovieListViewModel.setIsViewingMovies(false);
         mAdapter.displaySearchCategories();
     }
@@ -77,16 +87,44 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mAdapter.displayLoading();
+                mMovieListViewModel.setIsPerformingQuery(true);
 
+                if(mMovieListViewModel.getIsViewingMovies()){
+                    // Offline search
+                    List<Movie> result = mMovieListViewModel.performMoviesSearchLocal(query);
+                    mAdapter.setSearchDataChanged(result);
+
+                } else {
+                    // Online search
+                    Toast.makeText(mContext, "This is the online search. I dont have time to implement it", Toast.LENGTH_LONG).show();
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(newText.equals("")){
+                    endSearchQuery();
+                }
                 return false;
             }
         });
+
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                endSearchQuery();
+                return false;
+            }
+        });
+
     }
+
+    private void endSearchQuery() {
+        mMovieListViewModel.setIsPerformingSearch(false);
+        mMovieListViewModel.searchMoviesApi(null, 1);
+    }
+
 
     private void subscribeObservers() {
         mMovieListViewModel.getMovies().observe(this, new Observer<List<Movie>>() {
@@ -194,6 +232,9 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
 
     @Override
     public void onCategoryClick(String category) {
+        mToolbar.setTitle("");
+        mSearchView.setVisibility(View.VISIBLE);
+        
         mAdapter.displayLoading();
         mMovieListViewModel.searchMoviesApi(category, 1);
         mSearchView.clearFocus();
