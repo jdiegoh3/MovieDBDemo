@@ -10,17 +10,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moviesdbdemo.R;
 import com.example.moviesdbdemo.models.Movie;
 import com.example.moviesdbdemo.services.movies.MoviesAPIClient;
 import com.example.moviesdbdemo.ui.BaseActivity;
+import com.example.moviesdbdemo.ui.adapters.MovieViewHolder;
 import com.example.moviesdbdemo.ui.adapters.MoviesRecyclerAdapter;
 import com.example.moviesdbdemo.ui.adapters.OnMovieListeners;
+import com.example.moviesdbdemo.utils.BottomSheetDialog;
+import com.example.moviesdbdemo.utils.StaticConstants;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MovieListActivity extends BaseActivity implements OnMovieListeners {
@@ -124,7 +139,42 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
 
     @Override
     public void onMovieClick(int position) {
+        final Movie movie = mAdapter.getSelectedMovie(position);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog();
+        bottomSheetDialog.show(getSupportFragmentManager(), "bottomMovie");
+        bottomSheetDialog.setOnShowListener(new BottomSheetDialog.OnShowListener() {
+            @Override
+            public void OnShowListenerFn(View view) {
+                ImageView movieImageView = view.findViewById(R.id.movieImageDetail);
+                TextView movieTitle = view.findViewById(R.id.movieTitle);
+                TextView movieOverView = view.findViewById(R.id.movieOverview);
+                TextView movieDate = view.findViewById(R.id.movieReleasedDate);
+                FloatingActionButton showVideo = view.findViewById(R.id.movieShowVideo);
 
+                showVideo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Show video
+//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("videoURL")));
+                    }
+                });
+
+
+                RequestOptions requestOptions = new RequestOptions()
+                        .centerCrop();
+
+                Glide.with(MovieListActivity.this).load(StaticConstants.IMAGE_BASE_URL + movie.getPosterPath())
+                        .apply(requestOptions)
+                        .centerCrop()
+                        .into(movieImageView);
+
+                movieTitle.setText(movie.getTitle());
+                movieOverView.setText(movie.getOverview());
+                movieDate.setText(movie.getReleaseDate());
+
+
+            }
+        });
     }
 
     @Override

@@ -134,10 +134,10 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void displayLoading(){
         if(!isLoading()){
-            Movie recipe = new Movie();
-            recipe.setTitle("LOADINGID");
+            Movie movie = new Movie();
+            movie.setTitle("LOADINGID");
             List<Movie> loadingList = new ArrayList<>();
-            loadingList.add(recipe);
+            loadingList.add(movie);
             mMovies = loadingList;
             notifyDataSetChanged();
         }
@@ -163,5 +163,14 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
         }
         return false;
+    }
+
+    public Movie getSelectedMovie(int position){
+        if(mMovies != null){
+            if(mMovies.size() > 0){
+                return mMovies.get(position);
+            }
+        }
+        return null;
     }
 }

@@ -5,5 +5,7 @@
     <string name="top_rated">Top rated movies</string>
     <string name="popular">Popular movies</string>
     <string name="search_movies">Search movies..</string>
+    <string name="overview">Overview</string>
+    <string name="released_date">Released date</string>
 
 </resources>
