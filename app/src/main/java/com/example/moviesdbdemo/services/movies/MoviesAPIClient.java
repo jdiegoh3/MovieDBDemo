@@ -2,6 +2,7 @@ package com.example.moviesdbdemo.services.movies;
 
 import com.example.moviesdbdemo.models.Movie;
 import com.example.moviesdbdemo.services.serializers.MoviesResponseSerializer;
+import com.example.moviesdbdemo.services.serializers.MoviesVideoResponseSerializer;
 import com.example.moviesdbdemo.utils.ApiDisposable;
 import com.example.moviesdbdemo.utils.ApiDisposableWrapper;
 import com.example.moviesdbdemo.utils.ApiService;
@@ -44,6 +45,12 @@ public class MoviesAPIClient extends ApiService {
                 super.onNext(response);
             }
         });
+    }
+
+    public void getMovieVideo(Integer movieId, String language, ApiDisposable<MoviesVideoResponseSerializer, Object> disposable){
+        Observable<MoviesVideoResponseSerializer> observable = getService(MoviesAPI.class)
+                .getMovieVideo(movieId, StaticConstants.API_KEY, language);
+        handleRequest(observable, disposable);
     }
 
     public MutableLiveData<List<Movie>> getMovies() {

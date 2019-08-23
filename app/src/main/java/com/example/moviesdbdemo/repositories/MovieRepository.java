@@ -4,7 +4,9 @@ import android.widget.Toast;
 
 import com.example.moviesdbdemo.models.Movie;
 import com.example.moviesdbdemo.services.movies.MoviesAPIClient;
+import com.example.moviesdbdemo.services.serializers.MovieVideoSerializer;
 import com.example.moviesdbdemo.services.serializers.MoviesResponseSerializer;
+import com.example.moviesdbdemo.services.serializers.MoviesVideoResponseSerializer;
 import com.example.moviesdbdemo.utils.ApiDisposable;
 
 import java.util.List;
@@ -94,6 +96,28 @@ public class MovieRepository {
         else{
             mIsQueryExhausted.setValue(true);
         }
+    }
+
+    public void retrieveMovieVideo(Movie movie, final ApiDisposable<MovieVideoSerializer, Object> callback){
+        mMoviesAPIClient.getMovieVideo(movie.getId(), "en", new ApiDisposable<MoviesVideoResponseSerializer, Object>(){
+            @Override
+            public void onNext(MoviesVideoResponseSerializer moviesVideoResponseSerializer) {
+                super.onNext(moviesVideoResponseSerializer);
+                callback.onNext(moviesVideoResponseSerializer.getVideos().get(0));
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                callback.onNext(null);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Object error) {
+                super.onFailure(statusCode, error);
+                callback.onNext(null);
+            }
+        });
     }
 
     public void searchNextPage(){

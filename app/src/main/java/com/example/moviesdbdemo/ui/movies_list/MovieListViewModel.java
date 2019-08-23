@@ -2,6 +2,8 @@ package com.example.moviesdbdemo.ui.movies_list;
 
 import com.example.moviesdbdemo.models.Movie;
 import com.example.moviesdbdemo.repositories.MovieRepository;
+import com.example.moviesdbdemo.services.serializers.MovieVideoSerializer;
+import com.example.moviesdbdemo.utils.ApiDisposable;
 
 import java.util.List;
 
@@ -56,5 +58,9 @@ public class MovieListViewModel extends ViewModel {
                 && !isQueryExhausted().getValue()){
             mMovieRepository.searchNextPage();
         }
+    }
+
+    public void retrieveMovieVideo(Movie movie, ApiDisposable<MovieVideoSerializer, Object> callback){
+        mMovieRepository.retrieveMovieVideo(movie, callback);
     }
 }

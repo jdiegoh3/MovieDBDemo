@@ -23,10 +23,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.moviesdbdemo.R;
 import com.example.moviesdbdemo.models.Movie;
 import com.example.moviesdbdemo.services.movies.MoviesAPIClient;
+import com.example.moviesdbdemo.services.serializers.MovieVideoSerializer;
 import com.example.moviesdbdemo.ui.BaseActivity;
 import com.example.moviesdbdemo.ui.adapters.MovieViewHolder;
 import com.example.moviesdbdemo.ui.adapters.MoviesRecyclerAdapter;
 import com.example.moviesdbdemo.ui.adapters.OnMovieListeners;
+import com.example.moviesdbdemo.utils.ApiDisposable;
 import com.example.moviesdbdemo.utils.BottomSheetDialog;
 import com.example.moviesdbdemo.utils.StaticConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -151,14 +153,27 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
                 TextView movieDate = view.findViewById(R.id.movieReleasedDate);
                 FloatingActionButton showVideo = view.findViewById(R.id.movieShowVideo);
 
-                showVideo.setOnClickListener(new View.OnClickListener() {
+                showVideo.hide();
+                mMovieListViewModel.retrieveMovieVideo(movie, new ApiDisposable<MovieVideoSerializer, Object>(){
                     @Override
-                    public void onClick(View v) {
-                        // Show video
-//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("videoURL")));
+                    public void onNext(MovieVideoSerializer movieVideoSerializer) {
+                        if(movieVideoSerializer != null){
+                            showVideo.show();
+                            showVideo.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if(movieVideoSerializer.getSite().equals("YouTube")) {
+                                        String url = "https://www.youtube.com/watch?v=" + movieVideoSerializer.getKey();
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                                    } else if(movieVideoSerializer.getSite().equals("Vimeo")){
+                                        String url = "https://vimeo.com/" + movieVideoSerializer.getKey();
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                                    }
+                                }
+                            });
+                        }
                     }
                 });
-
 
                 RequestOptions requestOptions = new RequestOptions()
                         .centerCrop();
