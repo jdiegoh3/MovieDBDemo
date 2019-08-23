@@ -103,7 +103,12 @@ public class MovieRepository {
             @Override
             public void onNext(MoviesVideoResponseSerializer moviesVideoResponseSerializer) {
                 super.onNext(moviesVideoResponseSerializer);
-                callback.onNext(moviesVideoResponseSerializer.getVideos().get(0));
+                if(moviesVideoResponseSerializer.getVideos() != null
+                        && moviesVideoResponseSerializer.getVideos().size() > 0) {
+                    callback.onNext(moviesVideoResponseSerializer.getVideos().get(0));
+                } else {
+                    callback.onNext(null);
+                }
             }
 
             @Override

@@ -24,59 +24,62 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/poster_placerholder" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="35dp"
         android:background="@android:color/white"
-        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movieImageDetail">
 
         <TextView
             android:id="@+id/movieTitle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="@font/roboto"
             android:text="TextView"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/exhausted_query_string" />
+            android:textSize="@dimen/exhausted_query_string"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView7"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
             android:text="@string/released_date"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieTitle" />
 
         <TextView
             android:id="@+id/movieReleasedDate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/roboto"
-            android:text="TextView" />
+            app:layout_constraintBottom_toBottomOf="@+id/textView7"
+            app:layout_constraintStart_toEndOf="@+id/textView7"
+            app:layout_constraintTop_toTopOf="@+id/textView7"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginTop="5dp"
             android:text="@string/overview"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <TextView
             android:id="@+id/movieOverview"
@@ -84,21 +87,23 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="20dp"
             android:fontFamily="@font/roboto"
-            android:text="TextView" />
-
-    </LinearLayout>
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/movieShowVideo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:clickable="true"
         android:focusable="auto"
-        app:backgroundTint="@color/colorPrimaryDark"
+        app:backgroundTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movieImageDetail"
-        app:srcCompat="@android:drawable/presence_video_online" />
+        app:srcCompat="@drawable/vector_video_player" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
