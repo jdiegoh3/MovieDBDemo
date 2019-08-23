@@ -126,6 +126,7 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
 
     @Override
     public void onCategoryClick(String category) {
+        mAdapter.displayLoading();
         mMovieListViewModel.searchMoviesApi(category, 1);
         mSearchView.clearFocus();
     }

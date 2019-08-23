@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/loadingProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_marginLeft="@dimen/lateral_margin_progress_loading_movie"
+        android:layout_marginTop="@dimen/margin_top_loading_progress_movie"
+        android:layout_marginRight="@dimen/lateral_margin_progress_loading_movie" />
+</LinearLayout>

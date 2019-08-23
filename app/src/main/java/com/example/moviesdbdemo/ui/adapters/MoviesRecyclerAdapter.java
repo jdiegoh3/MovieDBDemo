@@ -51,6 +51,10 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_movie_type_item, parent, false);
                 return new MovieTypeViewHolder(view, mOnMovieListeners);
             }
+            case LOADING_TYPE:{
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_movie_loading_item, parent, false);
+                return new LoadingViewHolder(view);
+            }
         }
         return null;
     }
@@ -119,5 +123,27 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         exhaustedMovie.setTitle("EXHAUSTEDID");
         mMovies.add(exhaustedMovie);
         notifyDataSetChanged();
+    }
+
+    public void displayLoading(){
+        if(!isLoading()){
+            Movie recipe = new Movie();
+            recipe.setTitle("LOADINGID");
+            List<Movie> loadingList = new ArrayList<>();
+            loadingList.add(recipe);
+            mMovies = loadingList;
+            notifyDataSetChanged();
+        }
+    }
+
+    private boolean isLoading(){
+        if(mMovies != null){
+            if(mMovies.size() > 0){
+                if(mMovies.get(mMovies.size() - 1).getTitle().equals("LOADINGID")){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
