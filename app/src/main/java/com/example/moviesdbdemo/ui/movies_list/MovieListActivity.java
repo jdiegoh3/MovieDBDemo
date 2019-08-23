@@ -111,6 +111,15 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
     }
 
     @Override
+    public void onBackPressed() {
+        if(mMovieListViewModel.getIsViewingMovies()){
+            displaySearchCategories();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void onMovieClick(int position) {
 
     }

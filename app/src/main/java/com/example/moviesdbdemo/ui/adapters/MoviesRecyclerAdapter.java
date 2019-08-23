@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.moviesdbdemo.R;
 import com.example.moviesdbdemo.models.Movie;
 import com.example.moviesdbdemo.utils.StaticConstants;
@@ -58,33 +59,8 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         Context context = viewHolder.itemView.getContext();
         if(itemViewType == MOVIE_TYPE){
 
-//            Picasso picasso = getPicassoInstance(context);
-//
-//            picasso.load(StaticConstants.IMAGE_BASE_URL + mMovies.get(i).getPosterPath())
-//                    .networkPolicy(NetworkPolicy.OFFLINE)
-//                    .into(((MovieViewHolder) viewHolder).image, new Callback() {
-//                        @Override
-//                        public void onSuccess() {
-//                            ((MovieViewHolder) viewHolder).loadingImage.setVisibility(View.GONE);
-//                        }
-//
-//                        @Override
-//                        public void onError(Exception e) {
-//                            picasso.load(StaticConstants.IMAGE_BASE_URL + mMovies.get(i).getPosterPath())
-//                                    .networkPolicy(NetworkPolicy.OFFLINE)
-//                                    .into(((MovieViewHolder) viewHolder).image, new Callback() {
-//                                        @Override
-//                                        public void onSuccess() {
-//                                            ((MovieViewHolder) viewHolder).loadingImage.setVisibility(View.GONE);
-//                                        }
-//
-//                                        @Override
-//                                        public void onError(Exception e) {
-//
-//                                        }
-//                                    });
-//                        }
-//                    });
+            Glide.with(context).load(StaticConstants.IMAGE_BASE_URL + mMovies.get(i).getPosterPath())
+                    .into(((MovieViewHolder) viewHolder).image);
 
             String votes = String.valueOf(mMovies.get(i).getVoteCount());
             ((MovieViewHolder)viewHolder).votes.setText(votes);
