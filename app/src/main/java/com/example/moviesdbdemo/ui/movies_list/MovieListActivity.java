@@ -1,7 +1,6 @@
 package com.example.moviesdbdemo.ui.movies_list;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,10 +23,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.moviesdbdemo.R;
 import com.example.moviesdbdemo.models.Movie;
-import com.example.moviesdbdemo.services.movies.MoviesAPIClient;
 import com.example.moviesdbdemo.services.serializers.MovieVideoSerializer;
 import com.example.moviesdbdemo.ui.BaseActivity;
-import com.example.moviesdbdemo.ui.adapters.MovieViewHolder;
 import com.example.moviesdbdemo.ui.adapters.MoviesRecyclerAdapter;
 import com.example.moviesdbdemo.ui.adapters.OnMovieListeners;
 import com.example.moviesdbdemo.utils.ApiDisposable;
@@ -36,14 +32,12 @@ import com.example.moviesdbdemo.utils.BottomSheetDialog;
 import com.example.moviesdbdemo.utils.StaticConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 
 public class MovieListActivity extends BaseActivity implements OnMovieListeners {
+
+    // <editor-fold desc="Bind Views elem">
 
     @BindView(R.id.search_view)
     SearchView mSearchView;
@@ -54,10 +48,18 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
     @BindView(R.id.list_toolbar)
     Toolbar mToolbar;
 
+    // </editor-fold>
+
+    // <editor-fold desc="Vars">
+
     private static final String TAG = MovieListActivity.class.getSimpleName();
     private MovieListViewModel mMovieListViewModel;
     private MoviesRecyclerAdapter mAdapter;
     private Context mContext;
+
+    // </editor-fold>
+
+    // <editor-fold desc="Life Cycle">
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +76,9 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
         }
     }
 
-    private void displaySearchCategories() {
-        mToolbar.setTitle(mContext.getString(R.string.app_name));
-        mSearchView.setVisibility(View.GONE);
+    // </editor-fold>
 
-        mMovieListViewModel.setIsViewingMovies(false);
-        mAdapter.displaySearchCategories();
-    }
+    // <editor-fold desc="Init functions">
 
     private void initSearchView() {
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -120,11 +118,24 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
 
     }
 
-    private void endSearchQuery() {
-        mMovieListViewModel.setIsPerformingSearch(false);
-        mMovieListViewModel.searchMoviesApi(null, 1);
-    }
+    private void initRecycler() {
+        mAdapter = new MoviesRecyclerAdapter(this);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(!mRecyclerView.canScrollVertically(1)){
+                    mMovieListViewModel.searchNextPage();
+                }
+            }
+        });
+
+        mAdapter.setQueryExhausted();
+
+    }
 
     private void subscribeObservers() {
         mMovieListViewModel.getMovies().observe(this, new Observer<List<Movie>>() {
@@ -149,24 +160,9 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
         });
     }
 
-    private void initRecycler() {
-        mAdapter = new MoviesRecyclerAdapter(this);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    // </editor-fold>
 
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if(!mRecyclerView.canScrollVertically(1)){
-                    mMovieListViewModel.searchNextPage();
-                }
-            }
-        });
-
-        mAdapter.setQueryExhausted();
-
-    }
+    // <editor-fold desc="OnClick Listeners">
 
     @Override
     public void onBackPressed() {
@@ -239,4 +235,23 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
         mMovieListViewModel.searchMoviesApi(category, 1);
         mSearchView.clearFocus();
     }
+
+    // </editor-fold>
+
+    // <editor-fold desc="UI/UX Funcs">
+
+    private void displaySearchCategories() {
+        mToolbar.setTitle(mContext.getString(R.string.app_name));
+        mSearchView.setVisibility(View.GONE);
+
+        mMovieListViewModel.setIsViewingMovies(false);
+        mAdapter.displaySearchCategories();
+    }
+
+    private void endSearchQuery() {
+        mMovieListViewModel.setIsPerformingSearch(false);
+        mMovieListViewModel.searchMoviesApi(null, 1);
+    }
+
+    // </editor-fold>
 }

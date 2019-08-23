@@ -12,10 +12,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 public class MovieListViewModel extends ViewModel {
+
+    // <editor-fold desc="Vars"">
+
     private MovieRepository mMovieRepository;
     private boolean mIsViewingMovies;
     private boolean mIsPerformingQuery;
     private boolean mIsPerformingSearch;
+
+    // </editor-fold>
+
+    // <editor-fold desc="Constructor">
 
     public MovieListViewModel() {
         mMovieRepository = MovieRepository.getInstance();
@@ -23,18 +30,12 @@ public class MovieListViewModel extends ViewModel {
         mIsPerformingSearch = false;
     }
 
+    // </editor-fold>
+
+    // <editor-fold desc="Getter/Setters">
+
     public LiveData<List<Movie>> getMovies(){
         return mMovieRepository.getMovies();
-    }
-
-    public LiveData<Boolean> isQueryExhausted(){
-        return mMovieRepository.getIsQueryExhausted();
-    }
-
-    public void getMoviesApi(Integer page){
-        mIsViewingMovies = true;
-        mIsPerformingQuery = true;
-
     }
 
     public boolean getIsViewingMovies() {
@@ -56,6 +57,14 @@ public class MovieListViewModel extends ViewModel {
     public void setIsViewingMovies(boolean mIsViewingMovies) {
         this.mIsViewingMovies = mIsViewingMovies;
     }
+
+    public LiveData<Boolean> isQueryExhausted(){
+        return mMovieRepository.getIsQueryExhausted();
+    }
+
+    // </editor-fold>
+
+    // <editor-fold desc="Repository Calls">
 
     public List<Movie> performMoviesSearchLocal(String query){
         query = query.toLowerCase();
@@ -91,4 +100,6 @@ public class MovieListViewModel extends ViewModel {
     public void retrieveMovieVideo(Movie movie, ApiDisposable<MovieVideoSerializer, Object> callback){
         mMovieRepository.retrieveMovieVideo(movie, callback);
     }
+
+    // </editor-fold>
 }

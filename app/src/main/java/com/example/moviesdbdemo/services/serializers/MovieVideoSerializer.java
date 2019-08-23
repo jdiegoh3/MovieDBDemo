@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class MovieVideoSerializer {
+
+    // <editor-fold desc="Serialize Fields">
+
     @SerializedName("id")
     @Expose
     private String id;
@@ -28,6 +31,10 @@ public class MovieVideoSerializer {
     @SerializedName("type")
     @Expose
     private String type;
+
+    // </editor-fold>
+
+    // <editor-fold desc="Getters/Setters">
 
     public String getId() {
         return id;
@@ -92,4 +99,6 @@ public class MovieVideoSerializer {
     public void setType(String type) {
         this.type = type;
     }
+
+    // </editor-fold>
 }

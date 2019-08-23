@@ -90,7 +90,6 @@ public class ApiService {
 
     //</editor-fold>
 
-
     //<editor-fold desc="Requests Handling">
 
     protected <T, E> void handleRequest(Observable promise, final ApiDisposable<T, E> callback) {

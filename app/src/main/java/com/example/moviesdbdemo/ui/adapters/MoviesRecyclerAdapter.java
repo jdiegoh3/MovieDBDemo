@@ -145,9 +145,9 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void hideLoading(){
         if(isLoading()){
-            for(Movie recipe: mMovies){
-                if(recipe.getTitle().equals("LOADINGID")){
-                    mMovies.remove(recipe);
+            for(Movie movie: mMovies){
+                if(movie.getTitle().equals("LOADINGID")){
+                    mMovies.remove(movie);
                 }
             }
             notifyDataSetChanged();

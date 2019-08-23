@@ -3,8 +3,6 @@ package com.example.moviesdbdemo.utils;
 import android.content.Context;
 import android.content.res.Resources;
 
-import com.example.moviesdbdemo.R;
-
 import java.util.Locale;
 
 public class StringUtils {

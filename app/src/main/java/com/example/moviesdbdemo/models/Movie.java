@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Movie {
+
+    // <editor-fold desc="Vars/Fields">
+
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
@@ -48,6 +51,10 @@ public class Movie {
     @SerializedName("vote_average")
     @Expose
     private Double voteAverage;
+
+    // </editor-fold>
+
+    // <editor-fold desc="Getters/Setters">
 
     public String getPosterPath() {
         return posterPath;
@@ -116,5 +123,7 @@ public class Movie {
     public Double getVoteAverage() {
         return voteAverage;
     }
+
+    // </editor-fold>
 }
 

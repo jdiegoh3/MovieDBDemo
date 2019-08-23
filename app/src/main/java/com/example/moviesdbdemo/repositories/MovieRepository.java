@@ -23,6 +23,8 @@ import static com.example.moviesdbdemo.MoviesApplication.provideContext;
 @Singleton
 public class MovieRepository {
 
+    // <editor-fold desc="Vars">
+
     private static MovieRepository movieRepository;
     private MoviesAPIClient mMoviesAPIClient;
     private String mQuery;
@@ -30,10 +32,18 @@ public class MovieRepository {
     private MutableLiveData<Boolean> mIsQueryExhausted = new MutableLiveData<>();
     private MediatorLiveData<List<Movie>> mMovies = new MediatorLiveData<>();
 
+    // </editor-fold>
+
+    // <editor-fold desc="Constructor">
+
     public MovieRepository() {
         mMoviesAPIClient = MoviesAPIClient.getInstance();
         initializeMediators();
     }
+
+    // </editor-fold>
+
+    // <editor-fold desc="Singleton">
 
     public static MovieRepository getInstance(){
         if(movieRepository == null){
@@ -41,6 +51,10 @@ public class MovieRepository {
         }
         return movieRepository;
     }
+
+    // </editor-fold>
+
+    // <editor-fold desc="LiveData Mediators">
 
     private void initializeMediators() {
         LiveData<List<Movie>> movieListApi = mMoviesAPIClient.getMovies();
@@ -56,10 +70,9 @@ public class MovieRepository {
         return mMovies;
     }
 
-    public MutableLiveData<Boolean> getIsQueryExhausted() {
-        return mIsQueryExhausted;
-    }
+    // </editor-fold>
 
+    // <editor-fold desc="Search functions">
 
     public void searchMoviesApi(String query, int pageNumber){
         mPageNumber = pageNumber == 0? 1 : pageNumber;
@@ -86,17 +99,6 @@ public class MovieRepository {
                 }
             }
         });
-    }
-
-    private void finishQuery(List<Movie> list){
-        if(list != null){
-            if (list.size() % 20 != 0) {
-                mIsQueryExhausted.setValue(true);
-            }
-        }
-        else{
-            mIsQueryExhausted.setValue(true);
-        }
     }
 
     public void retrieveMovieVideo(Movie movie, final ApiDisposable<MovieVideoSerializer, Object> callback){
@@ -129,4 +131,30 @@ public class MovieRepository {
     public void searchNextPage(){
         searchMoviesApi(mQuery, mPageNumber + 1);
     }
+
+    // </editor-fold>
+
+    // <editor-fold desc="Getters/Setters">
+
+    public MutableLiveData<Boolean> getIsQueryExhausted() {
+        return mIsQueryExhausted;
+    }
+
+    // </editor-fold>
+
+    // <editor-fold desc="UI/UX">
+
+    private void finishQuery(List<Movie> list){
+        if(list != null){
+            if (list.size() % 20 != 0) {
+                mIsQueryExhausted.setValue(true);
+            }
+        }
+        else{
+            mIsQueryExhausted.setValue(true);
+        }
+    }
+
+    // </editor-fold>
+
 }

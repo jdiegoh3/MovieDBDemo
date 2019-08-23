@@ -7,6 +7,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class MoviesResponseSerializer {
+
+    // <editor-fold desc="Serialize Fields">
+
     @SerializedName("results")
     @Expose
     private List<Movie> results;
@@ -19,6 +22,10 @@ public class MoviesResponseSerializer {
     @SerializedName("total_pages")
     @Expose
     private Integer totalPages;
+
+    // </editor-fold>
+
+    // <editor-fold desc="Getters/Setters">
 
     public List<Movie> getResults() {
         return results;
@@ -35,4 +42,6 @@ public class MoviesResponseSerializer {
     public Integer getTotalPages() {
         return totalPages;
     }
+
+    // </editor-fold>
 }
