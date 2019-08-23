@@ -31,7 +31,7 @@ public class MoviesAPIClient extends ApiService {
         return moviesAPIClient;
     }
 
-    public void getMovies(final Integer page, String language, String category, ApiDisposable<MoviesResponseSerializer, Object> disposable){
+    public void getMovies(final Integer page, String category, ApiDisposable<MoviesResponseSerializer, Object> disposable){
         Observable<MoviesResponseSerializer> observable = getService(MoviesAPI.class)
                 .getMovies(category, StaticConstants.API_KEY, page, getCurrentLanguage());
         handleRequest(observable, new ApiDisposableWrapper<MoviesResponseSerializer, Object>(disposable){
@@ -49,15 +49,15 @@ public class MoviesAPIClient extends ApiService {
         });
     }
 
-    public void getMovieVideo(Integer movieId, String language, ApiDisposable<MoviesVideoResponseSerializer, Object> disposable){
+    public void getMovieVideo(Integer movieId, ApiDisposable<MoviesVideoResponseSerializer, Object> disposable){
         Observable<MoviesVideoResponseSerializer> observable = getService(MoviesAPI.class)
-                .getMovieVideo(movieId, StaticConstants.API_KEY, language);
+                .getMovieVideo(movieId, StaticConstants.API_KEY, getCurrentLanguage());
         handleRequest(observable, disposable);
     }
 
-    public void searchMovie(final Integer page, String language, String query, ApiDisposable<MoviesResponseSerializer, Object> disposable){
+    public void searchMovie(final Integer page, String query, ApiDisposable<MoviesResponseSerializer, Object> disposable){
         Observable<MoviesResponseSerializer> observable = getService(MoviesAPI.class)
-                .searchMovie(StaticConstants.API_KEY, page, language, query);
+                .searchMovie(StaticConstants.API_KEY, page, getCurrentLanguage(), query);
     }
 
     public MutableLiveData<List<Movie>> getMovies() {

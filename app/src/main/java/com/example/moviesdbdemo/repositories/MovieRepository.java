@@ -65,7 +65,7 @@ public class MovieRepository {
         mPageNumber = pageNumber == 0? 1 : pageNumber;
         mQuery = query;
         mIsQueryExhausted.setValue(false);
-        mMoviesAPIClient.getMovies(pageNumber, "en", query, new ApiDisposable<MoviesResponseSerializer, Object>(){
+        mMoviesAPIClient.getMovies(pageNumber, query, new ApiDisposable<MoviesResponseSerializer, Object>(){
             @Override
             public void onNext(MoviesResponseSerializer moviesResponseSerializer) {
                 super.onNext(moviesResponseSerializer);
@@ -99,7 +99,7 @@ public class MovieRepository {
     }
 
     public void retrieveMovieVideo(Movie movie, final ApiDisposable<MovieVideoSerializer, Object> callback){
-        mMoviesAPIClient.getMovieVideo(movie.getId(), "en", new ApiDisposable<MoviesVideoResponseSerializer, Object>(){
+        mMoviesAPIClient.getMovieVideo(movie.getId(), new ApiDisposable<MoviesVideoResponseSerializer, Object>(){
             @Override
             public void onNext(MoviesVideoResponseSerializer moviesVideoResponseSerializer) {
                 super.onNext(moviesVideoResponseSerializer);
