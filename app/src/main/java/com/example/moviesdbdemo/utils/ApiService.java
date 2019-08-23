@@ -1,6 +1,7 @@
 package com.example.moviesdbdemo.utils;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,15 +16,23 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Cache;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.moviesdbdemo.MoviesApplication.provideContext;
 
 
 public class ApiService {
@@ -36,8 +45,29 @@ public class ApiService {
 
     //</editor-fold>
 
-
     //<editor-fold desc="Client">
+
+    private OkHttpClient createHttpClient(Cache cache){
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
+                        Request request = chain.request();
+                        if(NetworkUtils.isInternetConnection(provideContext())){
+                            request.newBuilder().addHeader("Cache-Control", "public, max-age=" + 5).build();
+                        } else{
+                            request.newBuilder()
+                                    .addHeader("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build();
+                        }
+                        return chain.proceed(request);
+                    }
+                })
+                .cache(cache);
+
+
+        return builder.build();
+    }
 
     protected ApiService() {
         client = buildClient();
@@ -50,6 +80,7 @@ public class ApiService {
     private Retrofit buildClient() {
         GsonBuilder builder = new GsonBuilder();
 
+        Cache cacheInstance = CacheUtils.getHttpCache(null);
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
 
         return new Retrofit.Builder()

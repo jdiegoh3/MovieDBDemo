@@ -49,6 +49,9 @@ dependencies {
     // Retrofit Http requests
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
 
+    // okHttp3 logging interceptors
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+
     // Retrofit RxJava Adapter
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
@@ -80,6 +83,9 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+
+    // Realm
+//    classpath "io.realm:realm-gradle-plugin:5.14.0"
 
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
