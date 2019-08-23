@@ -11,6 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.moviesdbdemo.R;
 import com.example.moviesdbdemo.models.Movie;
@@ -59,7 +60,6 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mAdapter.displayLoading();
-//                mMovieListViewModel.
 
                 return false;
             }

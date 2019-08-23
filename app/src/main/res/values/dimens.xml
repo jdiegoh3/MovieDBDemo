@@ -6,4 +6,6 @@
     <dimen name="movie_type_title">22sp</dimen>
     <dimen name="margin_top_loading_progress_movie">15dp</dimen>
     <dimen name="lateral_margin_progress_loading_movie">20dp</dimen>
+    <dimen name="movie_poster_width">100dp</dimen>
+    <dimen name="movie_poster_height">600dp</dimen>
 </resources>

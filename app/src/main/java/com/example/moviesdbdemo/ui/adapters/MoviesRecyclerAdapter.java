@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.moviesdbdemo.R;
 import com.example.moviesdbdemo.models.Movie;
 import com.example.moviesdbdemo.utils.StaticConstants;
@@ -27,6 +28,7 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static final int EXHAUSTED_TYPE = 4;
 
     private List<Movie> mMovies;
+    private boolean isPerformingQuery = false;
 
     public MoviesRecyclerAdapter(OnMovieListeners onMovieListeners) {
         this.mOnMovieListeners = onMovieListeners;
@@ -64,8 +66,12 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         int itemViewType = getItemViewType(i);
         Context context = viewHolder.itemView.getContext();
         if(itemViewType == MOVIE_TYPE){
+            RequestOptions requestOptions = new RequestOptions()
+                    .centerCrop();
 
             Glide.with(context).load(StaticConstants.IMAGE_BASE_URL + mMovies.get(i).getPosterPath())
+                    .apply(requestOptions)
+                    .centerCrop()
                     .into(((MovieViewHolder) viewHolder).image);
 
             String votes = String.valueOf(mMovies.get(i).getVoteCount());
@@ -108,11 +114,11 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         List<Movie> categories = new ArrayList<>();
 
         for(int i = 0; i< StaticConstants.DEFAULT_TYPES.length; i++){
-            Movie recipe = new Movie();
-            recipe.setTitle(StaticConstants.DEFAULT_TYPES[i]);
-            recipe.setPosterPath(String.valueOf(StaticConstants.DEFAULT_TYPES_IMAGES[i]));
-            recipe.setVoteCount(-1);
-            categories.add(recipe);
+            Movie movie = new Movie();
+            movie.setTitle(StaticConstants.DEFAULT_TYPES[i]);
+            movie.setPosterPath(String.valueOf(StaticConstants.DEFAULT_TYPES_IMAGES[i]));
+            movie.setVoteCount(-1);
+            categories.add(movie);
         }
         mMovies = categories;
         notifyDataSetChanged();
@@ -120,9 +126,9 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void setQueryExhausted(){
         hideLoading();
-        Movie exhaustedRecipe = new Movie();
-        exhaustedRecipe.setTitle("EXHAUSTEDID");
-        mMovies.add(exhaustedRecipe);
+        Movie exhaustedMovie = new Movie();
+        exhaustedMovie.setTitle("EXHAUSTEDID");
+        mMovies.add(exhaustedMovie);
         notifyDataSetChanged();
     }
 
