@@ -1,6 +1,6 @@
 # Aplicación visualización de Películas
 
-
+**Documentation view**: **COMMAND + MAY + -** or go to code>folding>collapse all
 
 ### Patron de Arquitectonico: MVVM
 
