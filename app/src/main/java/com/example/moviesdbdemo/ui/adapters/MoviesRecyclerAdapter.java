@@ -119,9 +119,10 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void setQueryExhausted(){
-        Movie exhaustedMovie = new Movie();
-        exhaustedMovie.setTitle("EXHAUSTEDID");
-        mMovies.add(exhaustedMovie);
+        hideLoading();
+        Movie exhaustedRecipe = new Movie();
+        exhaustedRecipe.setTitle("EXHAUSTEDID");
+        mMovies.add(exhaustedRecipe);
         notifyDataSetChanged();
     }
 
@@ -132,6 +133,17 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             List<Movie> loadingList = new ArrayList<>();
             loadingList.add(recipe);
             mMovies = loadingList;
+            notifyDataSetChanged();
+        }
+    }
+
+    private void hideLoading(){
+        if(isLoading()){
+            for(Movie recipe: mMovies){
+                if(recipe.getTitle().equals("LOADINGID")){
+                    mMovies.remove(recipe);
+                }
+            }
             notifyDataSetChanged();
         }
     }

@@ -47,14 +47,14 @@ public class MovieListViewModel extends ViewModel {
     public void searchMoviesApi(String query, int page){
         mIsViewingMovies = true;
         mIsPerformingQuery = true;
-        mMovieRepository.searchRecipesApi(query, page);
+        mMovieRepository.searchMoviesApi(query, page);
     }
 
     public void searchNextPage(){
-//        if(!mIsPerformingQuery
-//                && mIsViewingMovies
-//                && !isQueryExhausted().getValue()){
-//            mMovieRepository.searchNextPage();
-//        }
+        if(!mIsPerformingQuery
+                && mIsViewingMovies
+                && !isQueryExhausted().getValue()){
+            mMovieRepository.searchNextPage();
+        }
     }
 }

@@ -58,6 +58,9 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                mAdapter.displayLoading();
+
+                // Do request
                 return false;
             }
 
@@ -101,7 +104,7 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if(!mRecyclerView.canScrollVertically(1)){
-                    // empty
+                    mMovieListViewModel.searchNextPage();
                 }
             }
         });

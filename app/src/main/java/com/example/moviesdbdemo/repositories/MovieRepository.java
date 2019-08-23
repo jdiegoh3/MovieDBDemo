@@ -59,8 +59,9 @@ public class MovieRepository {
     }
 
 
-    public void searchRecipesApi(String query, int pageNumber){
+    public void searchMoviesApi(String query, int pageNumber){
         mPageNumber = pageNumber == 0? 1 : pageNumber;
+        mQuery = query;
         mIsQueryExhausted.setValue(false);
         mMoviesAPIClient.getMovies(pageNumber, "en", query, new ApiDisposable<MoviesResponseSerializer, Object>(){
             @Override
@@ -81,5 +82,9 @@ public class MovieRepository {
                 }
             }
         });
+    }
+
+    public void searchNextPage(){
+        searchMoviesApi(mQuery, mPageNumber + 1);
     }
 }
