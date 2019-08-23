@@ -85,6 +85,7 @@ public class ApiService {
 
         return new Retrofit.Builder()
                 .baseUrl(StaticConstants.BASE_URL)
+                .client(createHttpClient(cacheInstance))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(builder.create()))
                 .build();
