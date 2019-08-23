@@ -39,6 +39,8 @@
             android:layout_gravity="center"
             android:drawableStart="@drawable/vector_star"
             android:gravity="center"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
             android:text="900"
             android:textColor="#000"
             android:textSize="@dimen/movie_title_text_size" />

@@ -24,4 +24,12 @@ public interface MoviesAPI {
             @Query("api_key") String key,
             @Query("language") String language
     );
+
+    @GET("/search/movie")
+    Observable<MoviesResponseSerializer> searchMovie(
+            @Query("api_key") String key,
+            @Query("page") Integer page,
+            @Query("language") String language,
+            @Query("query") String query
+    );
 }

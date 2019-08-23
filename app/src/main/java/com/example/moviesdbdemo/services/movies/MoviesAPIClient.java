@@ -13,6 +13,8 @@ import java.util.List;
 import androidx.lifecycle.MutableLiveData;
 import io.reactivex.Observable;
 
+import static com.example.moviesdbdemo.utils.StringUtils.getCurrentLanguage;
+
 
 public class MoviesAPIClient extends ApiService {
 
@@ -31,7 +33,7 @@ public class MoviesAPIClient extends ApiService {
 
     public void getMovies(final Integer page, String language, String category, ApiDisposable<MoviesResponseSerializer, Object> disposable){
         Observable<MoviesResponseSerializer> observable = getService(MoviesAPI.class)
-                .getMovies(category, StaticConstants.API_KEY, page, language);
+                .getMovies(category, StaticConstants.API_KEY, page, getCurrentLanguage());
         handleRequest(observable, new ApiDisposableWrapper<MoviesResponseSerializer, Object>(disposable){
             @Override
             public void onNext(MoviesResponseSerializer response) {
@@ -51,6 +53,11 @@ public class MoviesAPIClient extends ApiService {
         Observable<MoviesVideoResponseSerializer> observable = getService(MoviesAPI.class)
                 .getMovieVideo(movieId, StaticConstants.API_KEY, language);
         handleRequest(observable, disposable);
+    }
+
+    public void searchMovie(final Integer page, String language, String query, ApiDisposable<MoviesResponseSerializer, Object> disposable){
+        Observable<MoviesResponseSerializer> observable = getService(MoviesAPI.class)
+                .searchMovie(StaticConstants.API_KEY, page, language, query);
     }
 
     public MutableLiveData<List<Movie>> getMovies() {

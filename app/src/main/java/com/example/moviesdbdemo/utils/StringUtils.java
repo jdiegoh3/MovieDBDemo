@@ -5,6 +5,8 @@ import android.content.res.Resources;
 
 import com.example.moviesdbdemo.R;
 
+import java.util.Locale;
+
 public class StringUtils {
 
     public static String getStringResourceByName(Context context, String aString) {
@@ -17,5 +19,9 @@ public class StringUtils {
             resString = "not_found_resource";
         }
         return resString;
+    }
+
+    public static String getCurrentLanguage(){
+        return Locale.getDefault().getLanguage();
     }
 }
