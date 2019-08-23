@@ -16,6 +16,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.example.moviesdbdemo.utils.StringUtils.getStringResourceByName;
+
 public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private OnMovieListeners mOnMovieListeners;
@@ -68,8 +70,10 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             Drawable imageDrawable = context.getDrawable(Integer.valueOf(mMovies.get(i).getPosterPath()));
 
-            ((MovieTypeViewHolder)viewHolder).categoryTitle.setText(mMovies.get(i).getTitle());
+            String categoryName = getStringResourceByName(context, mMovies.get(i).getTitle());
+            ((MovieTypeViewHolder)viewHolder).categoryTitle.setText(categoryName);
             ((MovieTypeViewHolder)viewHolder).categoryImage.setImageDrawable(imageDrawable);
+            ((MovieTypeViewHolder)viewHolder).setInternalTitle(mMovies.get(i).getTitle());
 
         }
     }

@@ -28,7 +28,7 @@
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:queryHint="Search movies..">
+                app:queryHint="@string/search_movies">
 
             </androidx.appcompat.widget.SearchView>
 

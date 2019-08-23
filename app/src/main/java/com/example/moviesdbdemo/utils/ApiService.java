@@ -50,18 +50,15 @@ public class ApiService {
     private OkHttpClient createHttpClient(Cache cache){
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public okhttp3.Response intercept(@NonNull Chain chain) throws IOException {
-                        Request request = chain.request();
-                        if(NetworkUtils.isInternetConnection(provideContext())){
-                            request.newBuilder().addHeader("Cache-Control", "public, max-age=" + 5).build();
-                        } else{
-                            request.newBuilder()
-                                    .addHeader("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build();
-                        }
-                        return chain.proceed(request);
+                .addInterceptor(chain -> {
+                    Request request = chain.request();
+                    if(NetworkUtils.isInternetConnection(provideContext())){
+                        request.newBuilder().addHeader("Cache-Control", "public, max-age=" + 5).build();
+                    } else{
+                        request.newBuilder()
+                                .addHeader("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build();
                     }
+                    return chain.proceed(request);
                 })
                 .cache(cache);
 

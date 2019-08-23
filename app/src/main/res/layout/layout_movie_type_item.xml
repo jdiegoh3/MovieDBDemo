@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:clickable="true"
+    android:focusable="auto"
+    android:foreground="?android:attr/selectableItemBackground"
     android:padding="20dp">
 
     <ImageView
         android:id="@+id/movie_type_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/vector_upcoming" />
+        android:layout_weight="1" />
 
     <TextView
         android:id="@+id/movie_type_title"
@@ -21,6 +23,6 @@
         android:layout_weight="1"
         android:fontFamily="@font/roboto"
         android:paddingStart="20dp"
-        android:text="Upcoming"
+        android:text=""
         android:textSize="@dimen/movie_type_title" />
 </LinearLayout>

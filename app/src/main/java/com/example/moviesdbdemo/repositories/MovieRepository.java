@@ -1,5 +1,7 @@
 package com.example.moviesdbdemo.repositories;
 
+import android.widget.Toast;
+
 import com.example.moviesdbdemo.models.Movie;
 import com.example.moviesdbdemo.services.movies.MoviesAPIClient;
 import com.example.moviesdbdemo.services.serializers.MoviesResponseSerializer;
@@ -13,6 +15,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+
+import static com.example.moviesdbdemo.MoviesApplication.provideContext;
 
 @Singleton
 public class MovieRepository {
@@ -37,12 +41,10 @@ public class MovieRepository {
     }
 
     private void initializeMediators() {
-        System.out.println("@AJSHAJS Init mediators");
         LiveData<List<Movie>> movieListApi = mMoviesAPIClient.getMovies();
         mMovies.addSource(movieListApi, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                System.out.println("@AJSHAJS ON CHANGED");
                 mMovies.setValue(movies);
             }
         });
@@ -69,6 +71,14 @@ public class MovieRepository {
             @Override
             public void onFailure(int statusCode, Object error) {
                 super.onFailure(statusCode, error);
+                switch (statusCode){
+                    case 0:
+                        Toast.makeText(provideContext(), "You need internet connection to get the movies :c", Toast.LENGTH_LONG).show();
+                        break;
+                    case 401:
+                        Toast.makeText(provideContext(), "Authentication problem. Try again later.", Toast.LENGTH_LONG).show();
+                        break;
+                }
             }
         });
     }

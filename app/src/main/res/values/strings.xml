@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">moviesdbDemo</string>
     <string name="no_more_data">No more data</string>
+    <string name="upcoming">Upcoming movies</string>
+    <string name="top_rated">Top rated movies</string>
+    <string name="popular">Popular movies</string>
+    <string name="search_movies">Search movies..</string>
+
 </resources>

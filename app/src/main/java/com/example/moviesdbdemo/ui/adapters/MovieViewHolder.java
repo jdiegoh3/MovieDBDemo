@@ -14,7 +14,6 @@ public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnC
 
     TextView votes;
     AppCompatImageView image;
-    ProgressBar loadingImage;
     OnMovieListeners onMovieListeners;
 
     public MovieViewHolder(@NonNull View itemView, OnMovieListeners onMovieListeners) {
@@ -23,7 +22,6 @@ public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnC
 
         votes = itemView.findViewById(R.id.votes_text);
         image = itemView.findViewById(R.id.movie_image);
-        loadingImage = itemView.findViewById(R.id.progressImageLoading);
         itemView.setOnClickListener(this);
     }
 
