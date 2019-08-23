@@ -59,8 +59,8 @@ public class MovieListActivity extends BaseActivity implements OnMovieListeners 
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mAdapter.displayLoading();
+//                mMovieListViewModel.
 
-                // Do request
                 return false;
             }
 

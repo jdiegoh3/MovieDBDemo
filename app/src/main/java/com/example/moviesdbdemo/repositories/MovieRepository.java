@@ -67,6 +67,7 @@ public class MovieRepository {
             @Override
             public void onNext(MoviesResponseSerializer moviesResponseSerializer) {
                 super.onNext(moviesResponseSerializer);
+                finishQuery(moviesResponseSerializer.getResults());
             }
 
             @Override
@@ -82,6 +83,17 @@ public class MovieRepository {
                 }
             }
         });
+    }
+
+    private void finishQuery(List<Movie> list){
+        if(list != null){
+            if (list.size() % 20 != 0) {
+                mIsQueryExhausted.setValue(true);
+            }
+        }
+        else{
+            mIsQueryExhausted.setValue(true);
+        }
     }
 
     public void searchNextPage(){
