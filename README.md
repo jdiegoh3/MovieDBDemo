@@ -20,7 +20,7 @@
 
 
 
-Responsabilidades de cada clase creada.
+## Responsabilidades de cada clase creada.
 
 - Movie: Es el modelo de la película. Almacena y accede a los datos de una pelicula.
 - MoviesAPI: Interfaz de retrofit. Consumir las Rest APIs asociadas a Movie.
